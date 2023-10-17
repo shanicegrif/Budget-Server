@@ -6,6 +6,8 @@ const cors = require("cors");
 app.use(cors());
 
 app.use(express.json());
-
+app.get("/", (req, res) => {
+    res.send("Welcome to the budgeting app!");
+  });
 
 module.exports = app;
