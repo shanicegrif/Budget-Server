@@ -54,7 +54,7 @@ transactions.get("/:index", (req, res) => {
   const { index } = req.params;
 
   if (transactionsArray[index]) {
-    res.status.apply(200).json(transactionsArray[index]);
+    res.status(200).json(transactionsArray[index]);
   } else {
     res.redirect("/404");
   }
@@ -81,7 +81,7 @@ transactions.post("/", (req, res) => {
     transactionsArray.push(newTransaction);
     res.status(201).json(newTransaction);
   } else {
-    res.status(400).send("Invalid transaction entry data types.");
+    res.status(400).send("Invalid transaction entry data type(s).");
   }
 });
 
@@ -96,21 +96,18 @@ transactions.delete("/:arrayIndex", (req, res) => {
   }
 });
 
-transactions.put("/arrayIndex", (req, res) => {
-  const { indexArray } = req.params;
-  const updatedTransaction = req.body;
-
-  if (
-    transactionsArray[indexArray] &&
-    validateTransaction(updatedTransaction)
-  ) {
-    transactionsArray[arrayIndex] = updatedTransaction;
-    res.status(200).json(updatedTransaction);
-  } else if (!transactionsArray[arrayIndex]) {
-    res.redirect("/404");
-  } else {
-    res.status(400).send("Invalid transaction entry data types.");
-  }
-});
+transactions.put("/:arrayIndex", (req, res) => {
+    const { arrayIndex } = req.params;
+    const updatedTransaction = req.body;
+  
+    if (transactionsArray[arrayIndex] && validateTransaction(updatedTransaction)) {
+      transactionsArray[arrayIndex] = updatedTransaction;
+      res.status(200).json(updatedTransaction);
+    } else if (!transactionsArray[arrayIndex]) {
+      res.redirect("/404");
+    } else {
+      res.status(400).send("Invalid transaction entry data type(s).");
+    }
+  });
 
 module.exports = transactions;
