@@ -9,7 +9,7 @@ module.exports = [
   {
     itemName: "Savings",
     date: "1/10/24",
-    amount: 400,
+    amount: -400,
     from: "Bank",
     category: "Savings",
   },
@@ -27,4 +27,11 @@ module.exports = [
     from: "Starbucks",
     category: "Food",
   },
+  {
+    itemName: "Birthday Money",
+    date: "2/14/24",
+    amount: 250,
+    from: "Grandma",
+    category: "Birthday",
+  }
 ];
