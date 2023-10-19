@@ -60,29 +60,11 @@ transactions.get("/:index", (req, res) => {
   }
 });
 
-function validateTransaction(transaction) {
-  if (
-    typeof transaction.itemName === "string" &&
-    typeof transaction.date === "string" &&
-    typeof transaction.amount === "number" &&
-    typeof transaction.from === "string" &&
-    typeof transaction.category === "string"
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 transactions.post("/", (req, res) => {
   const newTransaction = req.body;
 
-  if (validateTransaction(newTransaction)) {
-    transactionsArray.push(newTransaction);
-    res.status(201).json(newTransaction);
-  } else {
-    res.status(400).send("Invalid transaction entry data type(s).");
-  }
+  transactionsArray.push(newTransaction);
+  res.status(201).json(newTransaction);
 });
 
 transactions.delete("/:arrayIndex", (req, res) => {
@@ -97,17 +79,15 @@ transactions.delete("/:arrayIndex", (req, res) => {
 });
 
 transactions.put("/:arrayIndex", (req, res) => {
-    const { arrayIndex } = req.params;
-    const updatedTransaction = req.body;
-  
-    if (transactionsArray[arrayIndex] && validateTransaction(updatedTransaction)) {
-      transactionsArray[arrayIndex] = updatedTransaction;
-      res.status(200).json(updatedTransaction);
-    } else if (!transactionsArray[arrayIndex]) {
-      res.redirect("/404");
-    } else {
-      res.status(400).send("Invalid transaction entry data type(s).");
-    }
-  });
+  const { arrayIndex } = req.params;
+  const updatedTransaction = req.body;
+
+  if (transactionsArray[arrayIndex]) {
+    transactionsArray[arrayIndex] = updatedTransaction;
+    res.status(200).json(updatedTransaction);
+  } else {
+    res.redirect("/404");
+  }
+});
 
 module.exports = transactions;
